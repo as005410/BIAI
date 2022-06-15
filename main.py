@@ -34,6 +34,10 @@ class NeuralNetwork:
     def sigmoid_deriv(self, x):
       return x*(1-x)
 
+    # compute softmax activation function
+    def softmax(z):
+      return (np.exp(z.T) / np.sum(np.exp(z), axis=1)).T
+
     #return activations
     def train_partial(self, x, y):
       
