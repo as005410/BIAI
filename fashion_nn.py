@@ -1,4 +1,3 @@
-from sys import builtin_module_names
 from turtle import color
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,8 +43,8 @@ print(X_train.shape, X_test.shape)
 n_input_dim = 28*28 # 784
 n_out = 10 # 10 classes
 
-#counting cross-entropy loss
-class CrossEntropy():
+#counting loss
+class LossFunction():
   def __init__(self): pass
 
   def loss(self, y, p):
@@ -165,7 +164,7 @@ class Network():
 
 ############################################## TRAINING ##################################################
 
-criterion = CrossEntropy()
+loss_value = LossFunction()
 #initializing model
 model = Network(n_input_dim, n_out, lr=1e-3)
 
@@ -177,9 +176,9 @@ for epoch in range(EPOCHS):
   acc = []
   for x_batch, y_batch in batch_loader(X_train, y_train):
     out = model(x_batch) #forward pass
-    loss.append(np.mean(criterion.loss(y_batch, out))) #loss for printing
+    loss.append(np.mean(loss_value.loss(y_batch, out))) #loss for printing
     acc.append(accuracy(np.argmax(y_batch, axis=1), np.argmax(out, axis=1))) #accuracy for printing
-    error = criterion.gradient(y_batch, out) #error
+    error = loss_value.gradient(y_batch, out) #error
     model.backward(error) #backpropagation
   
   print(f"Epoch {epoch + 1}, Loss: {np.mean(loss)}, Acc: {np.mean(acc)}") #print results
